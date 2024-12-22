@@ -16,6 +16,12 @@ namespace {
 	static std::unique_ptr<ImGuiController>      sImGuiController   = nullptr; //!< ui system
 }
 
+//=========================================================================================
+// static variables
+//=========================================================================================
+
+std::unique_ptr<IFramework> SxavengerSystemEngine::framework_ = nullptr;
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // SxavengerSystemEngine class methods
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,4 +160,8 @@ void SxavengerSystemEngine::RenderImGui(DirectXThreadContext* context) {
 
 ImGuiController* SxavengerSystemEngine::GetImGuiController() {
 	return sImGuiController.get();
+}
+
+IFramework* SxavengerSystemEngine::GetFramework() {
+	return framework_.get();
 }

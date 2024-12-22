@@ -10,6 +10,7 @@
 #include "Window/GameWindowCollection.h"
 #include "Runtime/Thread/Thread.h"
 #include "Runtime/Input/Input.h"
+#include "Runtime/Framework/IFramework.h"
 #include "UI/ImGuiController.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,11 +107,37 @@ public:
 
 	static ImGuiController* GetImGuiController();
 
+	//-----------------------------------------------------------------------------------------
+	// framework option
+	//-----------------------------------------------------------------------------------------
+
+	template <DerivedFromFramework T>
+	static void RunFramework();
+
+	IFramework* GetFramework();
+
+
 private:
+
+	//=========================================================================================
+	// public methods
+	//=========================================================================================
+
+	static std::unique_ptr<IFramework> framework_;
+
 };
+
+template <DerivedFromFramework T>
+inline void SxavengerSystemEngine::RunFramework() {
+	framework_ = std::make_unique<T>();
+	framework_->Run();
+	framework_.reset();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // using
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 using SxavengerSystem = SxavengerSystemEngine;
+
+

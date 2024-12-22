@@ -1,43 +1,60 @@
+#pragma once
+
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* engine
-#include <Engine/System/SxavengerSystem.h>
-#include <Engine/System/Runtime/Framework/GameFramework.h>
-#include <Engine/Asset/SxavengerAsset.h>
-#include <Engine/Content/SxavengerContent.h>
-#include <Engine/Module/SxavengerModule.h>
-
-// c++
-#include <memory>
+//* scene
+#include "IScene.h"
+#include "BaseSceneFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// メイン関数
+// SceneController class
 ////////////////////////////////////////////////////////////////////////////////////////////
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+class SceneController {
+public:
 
 	//=========================================================================================
-	// sxavenger engine initalize.
+	// public method
 	//=========================================================================================
-	SxavengerSystem::Init();
-	SxavengerAsset::Init();
-	SxavengerContent::Init();
-	SxavengerModule::Init();
+
+	SceneController()  = default;
+	~SceneController() = default;
+
+	void Init(const std::string& startSceneKey);
+
+	void Term();
+
+	//* scene factory option *//
+
+	void RequestScene(const std::string& key);
+
+	void SetSceneFactory(std::unique_ptr<const BaseSceneFactory>&& factory) { factory_ = std::move(factory); }
+
+	void ActivateNextScene();
+
+	//* scene option *//
+
+	void InitScene();
+
+	void UpdateScene();
+
+	void DrawScene();
+
+	void TermScene();
+
+private:
 
 	//=========================================================================================
-	// framework run.
+	// private variables
 	//=========================================================================================
-	SxavengerSystem::RunFramework<GameFramework>();
+
+	std::unique_ptr<IScene> scene_;
+	std::unique_ptr<IScene> nextScene_ = nullptr;
+
+	std::unique_ptr<const BaseSceneFactory> factory_;
 
 	//=========================================================================================
-	// sxavenger engine term.
+	// private methods
 	//=========================================================================================
-	SxavengerSystem::TermThreadCollection();
 
-	SxavengerModule::Term();
-	SxavengerContent::Term();
-	SxavengerAsset::Term();
-	SxavengerSystem::Term();
-
-	return 0;
-}
+};

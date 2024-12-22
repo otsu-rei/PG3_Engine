@@ -1,43 +1,56 @@
+#pragma once
+
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
+//* framework
+#include "IFramework.h"
+
 //* engine
-#include <Engine/System/SxavengerSystem.h>
-#include <Engine/System/Runtime/Framework/GameFramework.h>
-#include <Engine/Asset/SxavengerAsset.h>
-#include <Engine/Content/SxavengerContent.h>
-#include <Engine/Module/SxavengerModule.h>
-
-// c++
-#include <memory>
+#include <Engine/System/Window/GameWindow.h>
+#include <Engine/System/Runtime/Scene/SceneController.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// メイン関数
+// GameFramework class
 ////////////////////////////////////////////////////////////////////////////////////////////
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+class GameFramework
+	: public IFramework {
+public:
 
 	//=========================================================================================
-	// sxavenger engine initalize.
+	// public method
 	//=========================================================================================
-	SxavengerSystem::Init();
-	SxavengerAsset::Init();
-	SxavengerContent::Init();
-	SxavengerModule::Init();
+
+	void Run() override;
+
+private:
 
 	//=========================================================================================
-	// framework run.
+	// private variables
 	//=========================================================================================
-	SxavengerSystem::RunFramework<GameFramework>();
+
+	std::shared_ptr<GameWindow> mainWindow_;
+
+	std::unique_ptr<SceneController> controller_;
 
 	//=========================================================================================
-	// sxavenger engine term.
+	// private method
 	//=========================================================================================
-	SxavengerSystem::TermThreadCollection();
 
-	SxavengerModule::Term();
-	SxavengerContent::Term();
-	SxavengerAsset::Term();
-	SxavengerSystem::Term();
+	void SystemInit();
+	void Init();
 
-	return 0;
-}
+	void SystemUpdate();
+	void Update();
+
+	void Draw();
+	void SystemDraw();
+
+	void SystemTerm();
+	void Term();
+
+	void BeginFrame();
+
+	void EndFrame();
+
+};

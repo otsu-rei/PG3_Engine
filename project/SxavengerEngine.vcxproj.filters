@@ -116,6 +116,11 @@
     <ClCompile Include="Task\Player.cpp" />
     <ClCompile Include="Task\ICommand.cpp" />
     <ClCompile Include="Task\InputHandler.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Framework\IFramework.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Framework\GameFramework.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Scene\IScene.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Scene\BaseSceneFactory.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Scene\SceneController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\System\Window\Window.h" />
@@ -237,5 +242,10 @@
     <ClInclude Include="Task\Player.h" />
     <ClInclude Include="Task\ICommand.h" />
     <ClInclude Include="Task\InputHandler.h" />
+    <ClInclude Include="Engine\System\Runtime\Framework\IFramework.h" />
+    <ClInclude Include="Engine\System\Runtime\Framework\GameFramework.h" />
+    <ClInclude Include="Engine\System\Runtime\Scene\IScene.h" />
+    <ClInclude Include="Engine\System\Runtime\Scene\BaseSceneFactory.h" />
+    <ClInclude Include="Engine\System\Runtime\Scene\SceneController.h" />
   </ItemGroup>
 </Project>
