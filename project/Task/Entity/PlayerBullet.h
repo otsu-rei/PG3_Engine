@@ -4,27 +4,34 @@
 // include
 //-----------------------------------------------------------------------------------------
 //* engine
-#include <Engine/System/Runtime/Input/Input.h>
+#include <Engine/Module/Behavior/ModelBehavior.h>
+#include <Engine/Asset/Asset.h>
+#include <Engine/Module/Collider/Collider.h>
 
-//* task
-#include <Task/ICommand.h>
+//* lib
+#include <Lib/Geometry/Vector2.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// InputHandler class
+// PlayerBullet class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class InputHandler {
+class PlayerBullet
+	: public ModelBehavior {
 public:
 
 	//=========================================================================================
 	// public methods
 	//=========================================================================================
 
-	InputHandler()  = default;
-	~InputHandler() = default;
+	PlayerBullet()  = default;
+	~PlayerBullet() = default;
 
-	void Init();
+	void Init(const Vector3f& position);
 
-	ICommand* HandleInput();
+	void Term();
+
+	void Update();
+
+	bool IsDelete() const { return time_.time >= 2.0f; }
 
 private:
 
@@ -32,9 +39,9 @@ private:
 	// private variables
 	//=========================================================================================
 
-	//* commands
+	std::shared_ptr<AssetModel> model_;
+	std::shared_ptr<Collider> collider_;
 
-	std::unique_ptr<ICommand> commandKeyD_ = nullptr;
-	std::unique_ptr<ICommand> commandKeyA_ = nullptr;
+	DeltaTimePoint<TimeUnit::s> time_;
 
 };

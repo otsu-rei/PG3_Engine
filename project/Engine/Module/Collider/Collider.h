@@ -22,7 +22,9 @@
 // ColliderType enum
 ////////////////////////////////////////////////////////////////////////////////////////////
 enum ColliderType {
-
+	kColliderType_Player,
+	kColliderType_PlayerBullet,
+	kColliderType_Enemy,
 
 	kCountOfColliderType
 };

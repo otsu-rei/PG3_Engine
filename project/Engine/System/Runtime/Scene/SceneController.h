@@ -4,7 +4,7 @@
 // include
 //-----------------------------------------------------------------------------------------
 //* scene
-#include "IScene.h"
+#include "BaseScene.h"
 #include "BaseSceneFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ public:
 
 	//* scene factory option *//
 
-	void RequestScene(const std::string& key);
+	void RequestNextScene(const std::string& key);
 
 	void SetSceneFactory(std::unique_ptr<const BaseSceneFactory>&& factory) { factory_ = std::move(factory); }
 
@@ -48,8 +48,8 @@ private:
 	// private variables
 	//=========================================================================================
 
-	std::unique_ptr<IScene> scene_;
-	std::unique_ptr<IScene> nextScene_ = nullptr;
+	std::unique_ptr<BaseScene> scene_;
+	std::unique_ptr<BaseScene> nextScene_ = nullptr;
 
 	std::unique_ptr<const BaseSceneFactory> factory_;
 

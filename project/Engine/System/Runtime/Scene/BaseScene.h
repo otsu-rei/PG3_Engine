@@ -3,35 +3,35 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* scene
-#include "BaseScene.h"
-
 //* c++
-#include <memory>
-#include <unordered_map>
-#include <functional>
-#include <string>
+#include <concepts>
+
+//-----------------------------------------------------------------------------------------
+// forward
+//-----------------------------------------------------------------------------------------
+class SceneController;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Base SceneFactory class
+// Interface Scene class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class BaseSceneFactory {
+class BaseScene {
 public:
 
 	//=========================================================================================
 	// public method
 	//=========================================================================================
 
-	virtual ~BaseSceneFactory() = default;
+	virtual ~BaseScene() = default;
 
-	std::unique_ptr<BaseScene> CreateScene(const std::string& key) const;
+	virtual void Init() = 0;
 
-	void Register(const std::string& key, std::function<std::unique_ptr<BaseScene>()> function) {
-		factory_[key] = function;
-	}
+	virtual void Update() = 0;
 
-	template <DerivedFromScene T>
-	void Register(const std::string& key);
+	virtual void Draw() = 0;
+
+	virtual void Term() = 0;
+
+	void SetController(SceneController* controller) { controller_ = controller; }
 
 protected:
 
@@ -39,11 +39,13 @@ protected:
 	// protected variables
 	//=========================================================================================
 
-	std::unordered_map<std::string, std::function<std::unique_ptr<BaseScene>()>> factory_;
+	SceneController* controller_ = nullptr;
+
 
 };
 
-template<DerivedFromScene T>
-inline void BaseSceneFactory::Register(const std::string& key) {
-	factory_[key] = []() { return std::make_unique<T>(); };
-}
+////////////////////////////////////////////////////////////////////////////////////////////
+// concept
+////////////////////////////////////////////////////////////////////////////////////////////
+template <class T>
+concept DerivedFromScene = std::derived_from<T, BaseScene>;

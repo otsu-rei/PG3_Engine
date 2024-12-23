@@ -3,31 +3,20 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* engine
-#include <Engine/System/Runtime/GameLoop/GameLoop.h>
-#include <Engine/System/Window/GameWindow.h>
+//* base
+#include <Engine/System/Runtime/Scene/BaseSceneFactory.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// ConsoleGameLoop class
+// GameSceneFactory class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class ConsoleGameLoop
-	: public GameLoop::Interface {
+class GameSceneFactory
+	: public BaseSceneFactory {
 public:
 
 	//=========================================================================================
 	// public method
 	//=========================================================================================
 
-	void Init(GameLoop::Context* context) override;
-
-	void Term() override;
-
-private:
-
-	//=========================================================================================
-	// private variables
-	//=========================================================================================
-
-	std::shared_ptr<GameWindow> main_;
+	void Init();
 
 };

@@ -3,27 +3,30 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* engine
-#include <Engine/System/Window/GameWindow.h>
+//* base
+#include <Engine/System/Runtime/Scene/BaseScene.h>
 
 //* task
-#include <Task/Player.h>
-#include <Task/InputHandler.h>
+#include <Task/Object/Title.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// GameScene class
+// SceneTitle class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class GameScene {
+class SceneTitle
+	: public BaseScene {
 public:
 
 	//=========================================================================================
-	// public methods
+	// public method
 	//=========================================================================================
 
-	GameScene()  = default;
-	~GameScene() = default;
+	void Init() override;
 
-	void Run();
+	void Term() override;
+
+	void Update() override;
+
+	void Draw() override;
 
 private:
 
@@ -31,26 +34,6 @@ private:
 	// private variables
 	//=========================================================================================
 
-	std::shared_ptr<GameWindow> mainWindow_;
+	std::unique_ptr<Title> title_;
 
-	//* task
-
-	std::unique_ptr<Player> player_;
-
-	std::unique_ptr<InputHandler> inputHandler_;
-	ICommand* command_ = nullptr;
-
-	//=========================================================================================
-	// private methods
-	//=========================================================================================
-
-	void SystemInit();
-	void Init();
-
-	void Update();
-
-	void Draw();
-	void DrawScreen();
-
-	void Term();
 };

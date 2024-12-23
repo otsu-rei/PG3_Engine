@@ -4,7 +4,7 @@
 // Base SceneFactory class methods
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-std::unique_ptr<IScene> BaseSceneFactory::CreateScene(const std::string& key) const {
+std::unique_ptr<BaseScene> BaseSceneFactory::CreateScene(const std::string& key) const {
 	if (factory_.contains(key)) {
 		return factory_.at(key)();
 	}

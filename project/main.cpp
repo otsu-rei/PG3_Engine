@@ -8,6 +8,7 @@
 //* loops
 #include <Engine/GameLoop/EngineGameLoop.h>
 #include <Engine/GameLoop/ConsoleGameLoop.h>
+#include <Task/GameLoop/ShootingGameLoop.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // メイン関数
@@ -17,7 +18,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<GameLoop::Collection> collection = std::make_unique<GameLoop::Collection>();
 	collection->Push<EngineGameLoop>();
 	collection->Push<ConsoleGameLoop>();
+	collection->Push<ShootingGameLoop>();
 
+	// collection->Run();
 	SxavengerSystem::RunFramework(std::move(collection));
 
 	return 0;

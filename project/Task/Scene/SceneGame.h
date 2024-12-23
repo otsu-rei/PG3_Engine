@@ -3,47 +3,39 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* scene
-#include "BaseScene.h"
+//* base
+#include <Engine/System/Runtime/Scene/BaseScene.h>
 
-//* c++
-#include <memory>
-#include <unordered_map>
-#include <functional>
-#include <string>
+//* task
+#include <Task/Entity/Player.h>
+#include <Task/Entity/Enemy.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Base SceneFactory class
+// SceneGame class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class BaseSceneFactory {
+class SceneGame
+	: public BaseScene {
 public:
 
 	//=========================================================================================
 	// public method
 	//=========================================================================================
 
-	virtual ~BaseSceneFactory() = default;
+	void Init() override;
 
-	std::unique_ptr<BaseScene> CreateScene(const std::string& key) const;
+	void Term() override;
 
-	void Register(const std::string& key, std::function<std::unique_ptr<BaseScene>()> function) {
-		factory_[key] = function;
-	}
+	void Update() override;
 
-	template <DerivedFromScene T>
-	void Register(const std::string& key);
+	void Draw() override;
 
-protected:
+private:
 
 	//=========================================================================================
-	// protected variables
+	// private variables
 	//=========================================================================================
 
-	std::unordered_map<std::string, std::function<std::unique_ptr<BaseScene>()>> factory_;
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<Enemy> enemy_;
 
 };
-
-template<DerivedFromScene T>
-inline void BaseSceneFactory::Register(const std::string& key) {
-	factory_[key] = []() { return std::make_unique<T>(); };
-}

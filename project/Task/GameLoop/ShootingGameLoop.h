@@ -1,53 +1,48 @@
 #pragma once
 
 //-----------------------------------------------------------------------------------------
-// forward
+// include
 //-----------------------------------------------------------------------------------------
-class Player;
+//* engine
+#include <Engine/System/Runtime/GameLoop/GameLoop.h>
+#include <Engine/System/Runtime/Scene/SceneController.h>
+
+//* task
+#include <Task/Scene/GameSceneFactory.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Interface Command class
+// ShootingGameLoop class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class ICommand {
+class ShootingGameLoop
+	: public GameLoop::Interface {
 public:
 
 	//=========================================================================================
-	// public methods
+	// public method
 	//=========================================================================================
 
-	virtual ~ICommand() = default;
+	void Init(GameLoop::Context* context) override;
 
-	virtual void Execute(Player* player) = 0;
+	void Term() override;
 
 private:
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////
-// MoveLeftCommand class
-////////////////////////////////////////////////////////////////////////////////////////////
-class MoveLeftCommand
-	: public ICommand {
-public:
 
 	//=========================================================================================
-	// public methods
+	// private variables
 	//=========================================================================================
 
-	void Execute(Player* player) override;
-
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////
-// MoveRightCommand class
-////////////////////////////////////////////////////////////////////////////////////////////
-class MoveRightCommand
-	: public ICommand {
-public:
+	std::unique_ptr<SceneController> controller_;
 
 	//=========================================================================================
-	// public methods
+	// private method
 	//=========================================================================================
 
-	void Execute(Player* player) override;
+	void InitGame();
+
+	void TermGame();
+
+	void UpdateGame();
+
+	void DrawGame();
 
 };

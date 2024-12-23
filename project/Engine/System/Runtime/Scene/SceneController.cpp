@@ -24,7 +24,7 @@ void SceneController::Term() {
 	nextScene_.reset();
 }
 
-void SceneController::RequestScene(const std::string& key) {
+void SceneController::RequestNextScene(const std::string& key) {
 	if (factory_ != nullptr) {
 		nextScene_ = factory_->CreateScene(key);
 	}
@@ -41,6 +41,7 @@ void SceneController::ActivateNextScene() {
 void SceneController::InitScene() {
 	if (scene_ != nullptr) {
 		scene_->Init();
+		scene_->SetController(this);
 	}
 }
 

@@ -3,47 +3,49 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* scene
-#include "BaseScene.h"
+//* engine
+#include <Engine/Module/Behavior/ModelBehavior.h>
+#include <Engine/Asset/Asset.h>
+#include <Engine/Module/Collider/Collider.h>
 
-//* c++
-#include <memory>
-#include <unordered_map>
-#include <functional>
-#include <string>
+//* lib
+#include <Lib/Geometry/Vector2.h>
+
+//* task
+#include "PlayerBullet.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Base SceneFactory class
+// Player class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class BaseSceneFactory {
+class Player
+	: public ModelBehavior {
 public:
 
 	//=========================================================================================
-	// public method
+	// public methods
 	//=========================================================================================
 
-	virtual ~BaseSceneFactory() = default;
+	Player() = default;
+	~Player() = default;
 
-	std::unique_ptr<BaseScene> CreateScene(const std::string& key) const;
+	void Init();
 
-	void Register(const std::string& key, std::function<std::unique_ptr<BaseScene>()> function) {
-		factory_[key] = function;
-	}
+	void Term();
 
-	template <DerivedFromScene T>
-	void Register(const std::string& key);
+	void Update();
 
-protected:
+private:
 
 	//=========================================================================================
-	// protected variables
+	// private variables
 	//=========================================================================================
 
-	std::unordered_map<std::string, std::function<std::unique_ptr<BaseScene>()>> factory_;
+	Vector2f speed_ = { 0.1f, 0.1f };
+
+	std::shared_ptr<AssetModel> model_;
+
+	std::unique_ptr<Collider> collider_;
+
+	std::unique_ptr<PlayerBullet> bullet_;
 
 };
-
-template<DerivedFromScene T>
-inline void BaseSceneFactory::Register(const std::string& key) {
-	factory_[key] = []() { return std::make_unique<T>(); };
-}

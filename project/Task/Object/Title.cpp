@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "Title.h"
 
 //-----------------------------------------------------------------------------------------
 // include
@@ -7,13 +7,13 @@
 #include <Engine/Asset/SxavengerAsset.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Player class methods
+// Title class
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Init() {
-	SetName("Player");
+void Title::Init() {
+	SetName("title");
 
-	model_ = SxavengerAsset::ImportModel("asset/model/demo/cube.obj");
+	model_ = SxavengerAsset::ImportModel("asset/model/text/title.obj");
 	model_->AsyncLoad();
 	SxavengerSystem::PushTask(model_);
 	model_->WaitCompleted();
@@ -22,17 +22,8 @@ void Player::Init() {
 	ModelBehavior::model_ = model_.get();
 }
 
-void Player::Term() {
+void Title::Term() {
 }
 
-void Player::Update() {
-	UpdateMatrix();
-}
-
-void Player::LeftMove() {
-	ModelBehavior::GetTransform().translate.x -= speed_.x;
-}
-
-void Player::RightMove() {
-	ModelBehavior::GetTransform().translate.x += speed_.x;
+void Title::Update() {
 }

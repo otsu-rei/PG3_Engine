@@ -3,33 +3,39 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* c++
-#include <concepts>
+//* engine
+#include <Engine/Module/Behavior/ModelBehavior.h>
+#include <Engine/Asset/Asset.h>
+
+//* lib
+#include <Lib/Geometry/Vector2.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Interface Scene class
+// Clear class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class IScene {
+class Clear
+	: public ModelBehavior {
 public:
 
 	//=========================================================================================
-	// public method
+	// public methods
 	//=========================================================================================
 
-	virtual ~IScene() = default;
+	Clear() = default;
+	~Clear() = default;
 
-	virtual void Init() = 0;
+	void Init();
 
-	virtual void Update() = 0;
+	void Term();
 
-	virtual void Draw() = 0;
+	void Update();
 
-	virtual void Term() = 0;
+private:
+
+	//=========================================================================================
+	// private variables
+	//=========================================================================================
+
+	std::shared_ptr<AssetModel> model_;
 
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////
-// concept
-////////////////////////////////////////////////////////////////////////////////////////////
-template <class T>
-concept DerivedFromScene = std::derived_from<T, IScene>;

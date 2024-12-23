@@ -6,26 +6,23 @@
 //* engine
 #include <Engine/Module/Behavior/ModelBehavior.h>
 #include <Engine/Asset/Asset.h>
+#include <Engine/Module/Collider/Collider.h>
 
 //* lib
 #include <Lib/Geometry/Vector2.h>
 
-//* Task
-#include <Task/ICommand.h>
-
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Player class
+// Enemy class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class Player
+class Enemy
 	: public ModelBehavior {
 public:
-
 	//=========================================================================================
 	// public methods
 	//=========================================================================================
 
-	Player()  = default;
-	~Player() = default;
+	Enemy()  = default;
+	~Enemy() = default;
 
 	void Init();
 
@@ -33,11 +30,7 @@ public:
 
 	void Update();
 
-	//* command
-
-	void LeftMove();
-
-	void RightMove();
+	bool IsHit() const { return isHit_; }
 
 private:
 
@@ -45,8 +38,13 @@ private:
 	// private variables
 	//=========================================================================================
 
-	Vector2f speed_ = kUnit2<float>;
+	Vector2f speed_ = { 0.1f, 0.1f };
 
 	std::shared_ptr<AssetModel> model_;
 
+	std::unique_ptr<Collider> collider_;
+
+	bool isHit_ = false;
+
+	
 };

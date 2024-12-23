@@ -218,8 +218,7 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClCompile Include="Engine\System\Runtime\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Runtime\Performance\DeltaTimePoint.cpp" />
     <ClCompile Include="Engine\System\Runtime\Performance\Performance.cpp" />
-    <ClCompile Include="Engine\System\Runtime\Scene\GameScene.cpp" />
-    <ClCompile Include="Engine\System\Runtime\Scene\IScene.cpp" />
+    <ClCompile Include="Engine\System\Runtime\Scene\BaseScene.cpp" />
     <ClCompile Include="Engine\System\Runtime\Scene\BaseSceneFactory.cpp" />
     <ClCompile Include="Engine\System\Runtime\Scene\SceneController.cpp" />
     <ClCompile Include="Engine\System\SxavengerSystem.cpp" />
@@ -246,10 +245,16 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClCompile Include="Lib\Sxl\OptimizedMap.cpp" />
     <ClCompile Include="Lib\Sxl\OptimizedSet.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Task\ICommand.cpp" />
-    <ClCompile Include="Task\InputHandler.cpp" />
-    <ClCompile Include="Task\Player.cpp" />
-    <ClCompile Include="Task\Runtime\SceneFactory.cpp" />
+    <ClCompile Include="Task\Entity\Enemy.cpp" />
+    <ClCompile Include="Task\Entity\Player.cpp" />
+    <ClCompile Include="Task\Entity\PlayerBullet.cpp" />
+    <ClCompile Include="Task\GameLoop\ShootingGameLoop.cpp" />
+    <ClCompile Include="Task\Object\Clear.cpp" />
+    <ClCompile Include="Task\Object\Title.cpp" />
+    <ClCompile Include="Task\Scene\GameSceneFactory.cpp" />
+    <ClCompile Include="Task\Scene\SceneClear.cpp" />
+    <ClCompile Include="Task\Scene\SceneGame.cpp" />
+    <ClCompile Include="Task\Scene\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Demo\AnimationDemo.h" />
@@ -342,8 +347,7 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClInclude Include="Engine\System\Runtime\Input\InputId.h" />
     <ClInclude Include="Engine\System\Runtime\Performance\DeltaTimePoint.h" />
     <ClInclude Include="Engine\System\Runtime\Performance\Performance.h" />
-    <ClInclude Include="Engine\System\Runtime\Scene\GameScene.h" />
-    <ClInclude Include="Engine\System\Runtime\Scene\IScene.h" />
+    <ClInclude Include="Engine\System\Runtime\Scene\BaseScene.h" />
     <ClInclude Include="Engine\System\Runtime\Scene\BaseSceneFactory.h" />
     <ClInclude Include="Engine\System\Runtime\Scene\SceneController.h" />
     <ClInclude Include="Engine\System\SxavengerSystem.h" />
@@ -376,10 +380,16 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClInclude Include="Lib\Sxl\OptimizedSet.h" />
     <ClInclude Include="Lib\Sxl\SxavengerLibrary.h" />
     <ClInclude Include="Lib\VertexStructure.h" />
-    <ClInclude Include="Task\ICommand.h" />
-    <ClInclude Include="Task\InputHandler.h" />
-    <ClInclude Include="Task\Player.h" />
-    <ClInclude Include="Task\Runtime\SceneFactory.h" />
+    <ClInclude Include="Task\Entity\Enemy.h" />
+    <ClInclude Include="Task\Entity\Player.h" />
+    <ClInclude Include="Task\Entity\PlayerBullet.h" />
+    <ClInclude Include="Task\GameLoop\ShootingGameLoop.h" />
+    <ClInclude Include="Task\Object\Clear.h" />
+    <ClInclude Include="Task\Object\Title.h" />
+    <ClInclude Include="Task\Scene\GameSceneFactory.h" />
+    <ClInclude Include="Task\Scene\SceneClear.h" />
+    <ClInclude Include="Task\Scene\SceneGame.h" />
+    <ClInclude Include="Task\Scene\SceneTitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

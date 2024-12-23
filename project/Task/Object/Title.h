@@ -3,47 +3,39 @@
 //-----------------------------------------------------------------------------------------
 // include
 //-----------------------------------------------------------------------------------------
-//* scene
-#include "BaseScene.h"
+//* engine
+#include <Engine/Module/Behavior/ModelBehavior.h>
+#include <Engine/Asset/Asset.h>
 
-//* c++
-#include <memory>
-#include <unordered_map>
-#include <functional>
-#include <string>
+//* lib
+#include <Lib/Geometry/Vector2.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Base SceneFactory class
+// Title class
 ////////////////////////////////////////////////////////////////////////////////////////////
-class BaseSceneFactory {
+class Title
+	: public ModelBehavior {
 public:
 
 	//=========================================================================================
-	// public method
+	// public methods
 	//=========================================================================================
 
-	virtual ~BaseSceneFactory() = default;
+	Title()  = default;
+	~Title() = default;
 
-	std::unique_ptr<BaseScene> CreateScene(const std::string& key) const;
+	void Init();
 
-	void Register(const std::string& key, std::function<std::unique_ptr<BaseScene>()> function) {
-		factory_[key] = function;
-	}
+	void Term();
 
-	template <DerivedFromScene T>
-	void Register(const std::string& key);
+	void Update();
 
-protected:
+private:
 
 	//=========================================================================================
-	// protected variables
+	// private variables
 	//=========================================================================================
 
-	std::unordered_map<std::string, std::function<std::unique_ptr<BaseScene>()>> factory_;
+	std::shared_ptr<AssetModel> model_;
 
 };
-
-template<DerivedFromScene T>
-inline void BaseSceneFactory::Register(const std::string& key) {
-	factory_[key] = []() { return std::make_unique<T>(); };
-}
