@@ -114,6 +114,8 @@ public:
 	template <DerivedFromFramework T>
 	static void RunFramework();
 
+	static void RunFramework(std::unique_ptr<IFramework>&& framework);
+
 	IFramework* GetFramework();
 
 

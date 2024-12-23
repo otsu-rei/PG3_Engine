@@ -3,41 +3,22 @@
 //-----------------------------------------------------------------------------------------
 //* engine
 #include <Engine/System/SxavengerSystem.h>
-#include <Engine/System/Runtime/Framework/GameFramework.h>
-#include <Engine/Asset/SxavengerAsset.h>
-#include <Engine/Content/SxavengerContent.h>
-#include <Engine/Module/SxavengerModule.h>
+#include <Engine/System/Runtime/GameLoop/GameLoop.h>
 
-// c++
-#include <memory>
+//* loops
+#include <Engine/GameLoop/EngineGameLoop.h>
+#include <Engine/GameLoop/ConsoleGameLoop.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // メイン関数
 ////////////////////////////////////////////////////////////////////////////////////////////
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	//=========================================================================================
-	// sxavenger engine initalize.
-	//=========================================================================================
-	SxavengerSystem::Init();
-	SxavengerAsset::Init();
-	SxavengerContent::Init();
-	SxavengerModule::Init();
+	std::unique_ptr<GameLoop::Collection> collection = std::make_unique<GameLoop::Collection>();
+	collection->Push<EngineGameLoop>();
+	collection->Push<ConsoleGameLoop>();
 
-	//=========================================================================================
-	// framework run.
-	//=========================================================================================
-	SxavengerSystem::RunFramework<GameFramework>();
-
-	//=========================================================================================
-	// sxavenger engine term.
-	//=========================================================================================
-	SxavengerSystem::TermThreadCollection();
-
-	SxavengerModule::Term();
-	SxavengerContent::Term();
-	SxavengerAsset::Term();
-	SxavengerSystem::Term();
+	SxavengerSystem::RunFramework(std::move(collection));
 
 	return 0;
 }

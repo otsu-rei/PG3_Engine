@@ -13,6 +13,8 @@
 //* lib
 #include <Lib/Environment.h>
 
+// HACK: user定義のinclude
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 // GameFramework class methods
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +101,8 @@ void GameFramework::SystemInit() {
 void GameFramework::Init() {
 	std::unique_ptr<BaseSceneFactory> factory = std::make_unique<BaseSceneFactory>(); //!< HACK: factoryの作成をuserに任せる
 	//factory->Register<GameScene>("GameScene");
-	
+
+	controller_->SetSceneFactory(std::move(factory));
 	controller_ = std::make_unique<SceneController>();
 	controller_->Init("");
 }

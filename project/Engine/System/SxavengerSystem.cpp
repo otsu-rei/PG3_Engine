@@ -162,6 +162,12 @@ ImGuiController* SxavengerSystemEngine::GetImGuiController() {
 	return sImGuiController.get();
 }
 
+void SxavengerSystemEngine::RunFramework(std::unique_ptr<IFramework>&& framework) {
+	framework_ = std::move(framework);
+	framework_->Run();
+	framework_.reset();
+}
+
 IFramework* SxavengerSystemEngine::GetFramework() {
 	return framework_.get();
 }

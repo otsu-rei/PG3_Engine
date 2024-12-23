@@ -121,6 +121,10 @@
     <ClCompile Include="Engine\System\Runtime\Scene\IScene.cpp" />
     <ClCompile Include="Engine\System\Runtime\Scene\BaseSceneFactory.cpp" />
     <ClCompile Include="Engine\System\Runtime\Scene\SceneController.cpp" />
+    <ClCompile Include="Task\Runtime\SceneFactory.cpp" />
+    <ClCompile Include="Engine\System\Runtime\GameLoop\GameLoop.cpp" />
+    <ClCompile Include="Engine\GameLoop\EngineGameLoop.cpp" />
+    <ClCompile Include="Engine\GameLoop\ConsoleGameLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\System\Window\Window.h" />
@@ -247,5 +251,9 @@
     <ClInclude Include="Engine\System\Runtime\Scene\IScene.h" />
     <ClInclude Include="Engine\System\Runtime\Scene\BaseSceneFactory.h" />
     <ClInclude Include="Engine\System\Runtime\Scene\SceneController.h" />
+    <ClInclude Include="Task\Runtime\SceneFactory.h" />
+    <ClInclude Include="Engine\System\Runtime\GameLoop\GameLoop.h" />
+    <ClInclude Include="Engine\GameLoop\EngineGameLoop.h" />
+    <ClInclude Include="Engine\GameLoop\ConsoleGameLoop.h" />
   </ItemGroup>
 </Project>
