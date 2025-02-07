@@ -60,12 +60,20 @@ void ColliderCollection::CheckAllCollision() {
 	for (; itrA != colliders_.end(); ++itrA) {
 		Collider* colliderA = *itrA;
 
+		if (!colliderA->IsActive()) {
+			continue;
+		}
+
 		// Aの次から回し, 重複をなくす
 		auto itrB = itrA;
 		itrB++;
 
 		for (; itrB != colliders_.end(); ++itrB) {
 			Collider* colliderB = *itrB;
+
+			if (!colliderB->IsActive()) {
+				continue;
+			}
 
 			CheckCollisionPair(colliderA, colliderB);
 		}
@@ -337,8 +345,10 @@ void ColliderDrawer::DrawOBB(const Vector3f& position, const CollisionBoundings:
 	pos[3] = { obb.size.x, obb.size.y, -obb.size.z };
 	pos[7] = { obb.size.x, obb.size.y, obb.size.z };
 
+	Matrix4x4 mat = Matrix::MakeAffine(kUnit3<float>, obb.orientation, position);
+
 	for (int i = 0; i < 8; ++i) {
-		pos[i] = Matrix::Transform(pos[i], obb.orientation * Matrix::MakeTranslate(position)); //!< 姿勢行列 + centerの適用
+		pos[i] = Matrix::Transform(pos[i], mat); //!< 姿勢行列 + centerの適用
 	}
 
 	for (int i = 0; i < 4; ++i) {

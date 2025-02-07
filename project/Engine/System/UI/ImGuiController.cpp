@@ -18,6 +18,9 @@ const std::filesystem::path ImGuiController::kImGuiLayoutFilepath_ = "imgui.ini"
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void ImGuiController::Init(Window* mainWindow) {
+	// handleの取得
+	//descriptorSRV_ = SxavengerSystem::GetDescriptor(kDescriptor_SRV);
+
 	// ImGuiの初期化
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -27,6 +30,14 @@ void ImGuiController::Init(Window* mainWindow) {
 	SetImGuiStyle();
 
 	ImGui_ImplWin32_Init(mainWindow->GetHwnd());
+	/*ImGui_ImplDX12_Init(
+		SxavengerSystem::GetDxDevice()->GetDevice(),
+		DxObject::SwapChain::GetBufferCount(),
+		DxObject::kScreenFormat,
+		SxavengerSystem::GetDxDescriptorHeaps()->GetDescriptorHeap(kDescriptor_CBV_SRV_UAV),
+		descriptorSRV_.GetCPUHandle(),
+		descriptorSRV_.GetGPUHandle()
+	);*/
 
 	ImGui_ImplDX12_InitInfo info = {};
 	info.Device            = SxavengerSystem::GetDxDevice()->GetDevice();
@@ -94,9 +105,9 @@ void ImGuiController::EndFrame() {
 }
 
 void ImGuiController::Render(DirectXThreadContext* context) {
-#ifdef _DEBUG
+#ifndef _RELEASE
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), context->GetCommandList());
-#endif // _DEBUG
+#endif // _RELEASE
 }
 
 void ImGuiController::OutputLayout() {
@@ -129,7 +140,8 @@ void ImGuiController::SetImGuiStyle() {
 	style.DockingSeparatorSize = 1;
 
 	/* borderSize */
-	style.FrameBorderSize = 0.0f;
+	style.FrameBorderSize  = 0.0f;
+	style.WindowBorderSize = 0.0f;
 
 	/* color */
 	// text

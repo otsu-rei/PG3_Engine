@@ -34,8 +34,6 @@ public:
 
 	void Clear();
 
-	void ShrinkToFit();
-
 	void Reset();
 
 	//* container setter *//
@@ -43,6 +41,7 @@ public:
 	void SetVirtual(uint32_t index, ShaderVisibility stage, D3D12_ROOT_PARAMETER_TYPE type, uint32_t shaderRegister);
 	void SetHandle(uint32_t index, ShaderVisibility stage, D3D12_DESCRIPTOR_RANGE_TYPE type, uint32_t shaderRegister);
 
+	void SetSamplerDesc(const D3D12_STATIC_SAMPLER_DESC& desc);
 	void SetSamplerLinear(SamplerMode mode, ShaderVisibility stage, UINT shaderRegister);
 	void SetSamplerAnisotropic(SamplerMode mode, ShaderVisibility stage, UINT shaderRegister, uint32_t anisotropic);
 	void SetSamplerPoint(SamplerMode mode, ShaderVisibility stage, UINT shaderRegister);
@@ -61,7 +60,7 @@ public:
 	// public variables
 	//=========================================================================================
 
-	std::vector<D3D12_ROOT_PARAMETER>      params;
+	std::vector<D3D12_ROOT_PARAMETER1>     params;
 	std::vector<D3D12_STATIC_SAMPLER_DESC> samplers;
 
 protected:
@@ -70,7 +69,7 @@ protected:
 	// protected variables
 	//=========================================================================================
 
-	std::vector<D3D12_DESCRIPTOR_RANGE> ranges_;
+	std::vector<D3D12_DESCRIPTOR_RANGE1> ranges_;
 
 	//* parameter *//
 
@@ -109,6 +108,7 @@ public:
 	void SetHandleUAV(uint32_t index, ShaderVisibility stage, uint32_t shaderRegister);
 
 	ComPtr<ID3D12RootSignature> CreateGraphicsRootSignature(ID3D12Device* device) const;
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +134,8 @@ public:
 	void SetHandleUAV(uint32_t index, uint32_t shaderRegister);
 
 	ComPtr<ID3D12RootSignature> CreateComputeRootSignature(ID3D12Device* device) const;
+
+
 };
 
 _DXOBJECT_NAMESPACE_END

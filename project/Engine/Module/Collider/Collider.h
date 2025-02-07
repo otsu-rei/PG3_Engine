@@ -4,7 +4,7 @@
 // include
 //-----------------------------------------------------------------------------------------
 //* base
-#include <Engine/Module/Transform/TransformComponent.h>
+#include <Engine/Module/Component/TransformComponent.h>
 
 //* collider
 #include "CollisionDetection.h"
@@ -22,9 +22,7 @@
 // ColliderType enum
 ////////////////////////////////////////////////////////////////////////////////////////////
 enum ColliderType {
-	kColliderType_Player,
-	kColliderType_PlayerBullet,
-	kColliderType_Enemy,
+
 
 	kCountOfColliderType
 };
@@ -39,7 +37,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// CollisionState enum
 	////////////////////////////////////////////////////////////////////////////////////////////
-	enum CollisionState : uint8_t {
+	enum CollisionState : bool {
 		kCurrent = 0, //!< 現在frameのhit情報
 		kPrev    = 1, //!< 1frame前のhit情報
 	};
@@ -51,7 +49,7 @@ public:
 	using OnCollisionFunction = std::function<void(_MAYBE_UNUSED Collider* const)>;
 
 	//!< CollisionState記録用
-	using CollisionStatesBit = std::bitset<static_cast<uint8_t>(CollisionState::kPrev) + 1>;
+	using CollisionStatesBit = std::bitset<static_cast<bool>(CollisionState::kPrev) + 1>;
 
 public:
 
@@ -74,7 +72,7 @@ public:
 
 	void SetColliderBoundingAABB(const CollisionBoundings::AABB& aabb = { .min = {-0.5f, -0.5f, -0.5f}, .max = {0.5f, 0.5f, 0.5f} });
 
-	void SetColliderBoundingOBB(const CollisionBoundings::OBB& obb = { .orientation = Matrix4x4::Identity(), .size = { 1.0f, 1.0f, 1.0f } });
+	void SetColliderBoundingOBB(const CollisionBoundings::OBB& obb = { .orientation = Quaternion::Identity(), .size = { 1.0f, 1.0f, 1.0f } });
 
 	const std::optional<CollisionBoundings::Boundings>& GetBoundings() const { return bounding_; }
 
@@ -110,6 +108,8 @@ public:
 	void SetTargetId(ColliderType type, bool isEnabled = true) { targetId_.set(static_cast<uint32_t>(type), isEnabled); }
 
 	bool CheckCollisionTarget(const Collider* const other) const;
+
+	bool CheckTypeId(ColliderType type) const { return typeId_.test(static_cast<uint32_t>(type)); }
 
 	//* active method *//
 

@@ -17,12 +17,6 @@ void BaseRootSignatureDesc::Clear() {
 	ranges_.clear();
 }
 
-void BaseRootSignatureDesc::ShrinkToFit() {
-	params.shrink_to_fit();
-	ranges_.shrink_to_fit();
-	samplers.shrink_to_fit();
-}
-
 void BaseRootSignatureDesc::Reset() {
 	Clear();
 	Reserve();
@@ -46,6 +40,13 @@ void BaseRootSignatureDesc::SetHandle(uint32_t index, ShaderVisibility stage, D3
 	params.at(index).ShaderVisibility                    = static_cast<D3D12_SHADER_VISIBILITY>(stage);
 	params.at(index).DescriptorTable.pDescriptorRanges   = &ranges_.at(index);
 	params.at(index).DescriptorTable.NumDescriptorRanges = 1;
+}
+
+void BaseRootSignatureDesc::SetSamplerDesc(const D3D12_STATIC_SAMPLER_DESC& desc) {
+	uint32_t sampleIndex = static_cast<uint32_t>(samplers.size());
+
+	AutoResizeSampler(sampleIndex);
+	samplers.at(sampleIndex) = desc;
 }
 
 void BaseRootSignatureDesc::SetSamplerLinear(SamplerMode mode, ShaderVisibility stage, UINT shaderRegister) {
@@ -93,7 +94,7 @@ void BaseRootSignatureDesc::SetSamplerPoint(SamplerMode mode, ShaderVisibility s
 
 ComPtr<ID3D12RootSignature> BaseRootSignatureDesc::CreateRootSignature(ID3D12Device* device, D3D12_ROOT_SIGNATURE_FLAGS flags) const {
 
-	D3D12_ROOT_SIGNATURE_DESC desc = {};
+	D3D12_ROOT_SIGNATURE_DESC1 desc = {};
 	desc.Flags = flags;
 
 	if (!params.empty()) {
@@ -106,12 +107,15 @@ ComPtr<ID3D12RootSignature> BaseRootSignatureDesc::CreateRootSignature(ID3D12Dev
 		desc.NumStaticSamplers = static_cast<UINT>(samplers.size());
 	}
 
+	D3D12_VERSIONED_ROOT_SIGNATURE_DESC version = {};
+	version.Version   = D3D_ROOT_SIGNATURE_VERSION_1_1;
+	version.Desc_1_1 = desc;
+
 	ComPtr<ID3DBlob> signatureBlob;
 	ComPtr<ID3DBlob> signatureErrorBlob;
 
-	auto hr = D3D12SerializeRootSignature(
-		&desc,
-		D3D_ROOT_SIGNATURE_VERSION_1,
+	auto hr = D3D12SerializeVersionedRootSignature(
+		&version,
 		&signatureBlob,
 		&signatureErrorBlob
 	);

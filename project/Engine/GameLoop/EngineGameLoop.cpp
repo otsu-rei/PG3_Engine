@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------------------------
 //* engine
 #include <Engine/System/SxavengerSystem.h>
-#include <Engine/System/Runtime/Performance/Performance.h>
 #include <Engine/Asset/SxavengerAsset.h>
 #include <Engine/Content/SxavengerContent.h>
 #include <Engine/Module/SxavengerModule.h>
+#include <Engine/System/Config/SxavengerDirectory.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // EngineGameLoop class methods
@@ -24,10 +24,11 @@ void EngineGameLoop::Init(GameLoop::Context* context) {
 
 			{ //!< white1x1の生成
 				std::unique_ptr<DxObject::ReflectionComputePipelineState> compute = std::make_unique<DxObject::ReflectionComputePipelineState>();
-				compute->CreateBlob("common/white1x1.cs.hlsl");
+				compute->CreateBlob(kPackagesShaderDirectory / "common/white1x1.cs.hlsl");
 				compute->ReflectionPipeline(SxavengerSystem::GetDxDevice());
 
-				std::shared_ptr<UnorderedTexture> white1x1 = SxavengerContent::TryCreateUnorderedTexture("white1x1", { 1, 1 });
+				std::unique_ptr<UnorderedTexture> white1x1 = std::make_unique<UnorderedTexture>();
+				white1x1->Create({ 1, 1 }, DXGI_FORMAT_R8G8B8A8_UNORM);
 				white1x1->TransitionBeginUnordered(SxavengerSystem::GetMainThreadContext());
 				compute->SetPipeline(SxavengerSystem::GetMainThreadContext()->GetDxCommand());
 
@@ -35,10 +36,12 @@ void EngineGameLoop::Init(GameLoop::Context* context) {
 				bind.SetHandle("gOutput", white1x1->GetGPUHandleUAV());
 				compute->BindComputeBuffer(SxavengerSystem::GetMainThreadContext()->GetDxCommand(), bind);
 
-				compute->Dispatch(SxavengerSystem::GetMainThreadContext()->GetDxCommand(), 1, 1, 1);
+				compute->Dispatch(SxavengerSystem::GetMainThreadContext()->GetDxCommand(), { 1, 1, 1 });
 
 				white1x1->TransitionEndUnordered(SxavengerSystem::GetMainThreadContext());
 				SxavengerSystem::TransitionAllocator();
+
+				SxavengerContent::RegisterTexture("white1x1", std::move(white1x1));
 			}
 		}
 	);
@@ -51,7 +54,6 @@ void EngineGameLoop::Init(GameLoop::Context* context) {
 
 	context->SetState(
 		GameLoop::State::Term, std::nullopt, [this]() {
-			SxavengerSystem::TermThreadCollection();
 			SxavengerModule::Term();
 			SxavengerContent::Term();
 			SxavengerAsset::Term();
@@ -61,7 +63,7 @@ void EngineGameLoop::Init(GameLoop::Context* context) {
 
 	context->SetState(
 		GameLoop::State::Begin, 0, [this]() {
-			Performance::BeginFrame();
+			SxavengerSystem::BeginPerformace();
 			SxavengerSystem::GetInput()->Update();
 			SxavengerSystem::BeginImGuiFrame();
 		}
@@ -79,7 +81,7 @@ void EngineGameLoop::Init(GameLoop::Context* context) {
 			SxavengerSystem::PresentAllWindow();
 			SxavengerSystem::ExecuteAllAllocator();
 			SxavengerModule::ResetPrimtive();
-			Performance::EndFrame();
+			SxavengerSystem::EndPerformace();
 		}
 	);
 }

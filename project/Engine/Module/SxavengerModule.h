@@ -4,8 +4,10 @@
 // include
 //-----------------------------------------------------------------------------------------
 //* module
-#include "Primitive/DebugPrimitive.h"
+#include "DebugPrimitive/DebugPrimitive.h"
 #include "Collider/ColliderCollection.h"
+#include "Skeleton/SkinningPipeline.h"
+#include "Audio/AudioController.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // SxavengerModule class
@@ -26,8 +28,6 @@ public:
 	//-----------------------------------------------------------------------------------------
 
 	static void ResetPrimtive();
-
-	static void DrawToScene(const DirectXThreadContext* context, const Camera3d* camera);
 
 	static void DrawLine(const Vector3f& v1, const Vector3f& v2, const Color4f& color);
 
@@ -52,6 +52,24 @@ public:
 	static void DrawCollider();
 
 	static ColliderCollection* GetColliderCollection();
+
+	//-----------------------------------------------------------------------------------------
+	// skinning pipeline option
+	//-----------------------------------------------------------------------------------------
+
+	static void SetSkinningPipeline(const DirectXThreadContext* context);
+
+	static void DispatchSkinningPipeline(const DirectXThreadContext* context, const DxObject::BindBufferDesc& desc, uint32_t vertexSize);
+
+	//-----------------------------------------------------------------------------------------
+	// audio controller option
+	//-----------------------------------------------------------------------------------------
+
+	static std::unique_ptr<Audio> CreateAudio(const AudioBuffer* buffer, bool isLoop = false);
+
+	static void PlayOneShot(const AudioBuffer* buffer, float volume);
+
+	static AudioController* GetAudioController();
 
 private:
 };
