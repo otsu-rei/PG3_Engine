@@ -40,6 +40,8 @@ public:
 
 	bool CheckVisibility() const;
 
+	void SetActive(bool isActive) { isActive_ = isActive; }
+
 protected:
 
 	//=========================================================================================

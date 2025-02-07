@@ -170,6 +170,7 @@
     <ClCompile Include="Engine\!Render\Scene\AmbientProcess\AmbientProcesses\FAmbientProcessAtmosphere.cpp" />
     <ClCompile Include="Engine\!Render\Scene\PostProcess\PostProcesses\FPostProcessVignette.cpp" />
     <ClCompile Include="Task\GameLoop\TaskGameLoop.cpp" />
+    <ClCompile Include="Task\Field.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\System\Window\Window.h" />
@@ -344,6 +345,7 @@
     <ClInclude Include="Engine\!Render\Scene\AmbientProcess\AmbientProcesses\FAmbientProcessAtmosphere.h" />
     <ClInclude Include="Engine\!Render\Scene\PostProcess\PostProcesses\FPostProcessVignette.h" />
     <ClInclude Include="Task\GameLoop\TaskGameLoop.h" />
+    <ClInclude Include="Task\Field.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

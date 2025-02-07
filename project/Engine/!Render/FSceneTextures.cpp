@@ -226,3 +226,22 @@ void FSceneTextures::EndForward(const DirectXThreadContext* context) const {
 
 	depth_->TransitionEndRasterizer(context);
 }
+
+void FSceneTextures::ClearMain(const DirectXThreadContext* context) const {
+
+	D3D12_RESOURCE_BARRIER barrier = gBuffers_[static_cast<uint8_t>(GBufferLayout::Main)]->TransitionBeginRenderTarget();
+	context->GetCommandList()->ResourceBarrier(1, &barrier);
+
+	static const uint8_t kGBufferCount = 1;
+	std::array<D3D12_CPU_DESCRIPTOR_HANDLE, kGBufferCount> handles = {};
+	handles[0] = gBuffers_[static_cast<uint8_t>(GBufferLayout::Main)]->GetCPUHandleRTV();
+
+	context->GetCommandList()->OMSetRenderTargets(
+		kGBufferCount, handles.data(), false, nullptr
+	);
+
+	gBuffers_[static_cast<uint8_t>(GBufferLayout::Main)]->ClearRenderTarget(context);
+
+	barrier = gBuffers_[static_cast<uint8_t>(GBufferLayout::Main)]->TransitionEndRenderTarget();
+	context->GetCommandList()->ResourceBarrier(1, &barrier);
+}

@@ -17,6 +17,11 @@ void FSceneRenderer::Render(const DirectXThreadContext* context) {
 	auto status = CheckStatus();
 
 	if (status.Any(Status::Status_Error)) {
+		if (!status.Test(Status::Error_Textures)) {
+			textures_->ClearMain(context);
+			// todo: 画面clear関数を作成
+		}
+
 		return;
 	}
 

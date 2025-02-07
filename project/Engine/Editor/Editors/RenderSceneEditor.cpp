@@ -188,7 +188,7 @@ void RenderSceneEditor::ShowHierarchyWindow() {
 			}
 
 			if (ImGui::BeginTabItem("Camera")) {
-				if (gameRenderer_ != nullptr) {
+				if (gameRenderer_ != nullptr && gameRenderer_->GetCamera() != nullptr) {
 					bool isAvailable = false; //!< 選択されたActorが存在するか
 
 					auto camera = gameRenderer_->GetCamera();

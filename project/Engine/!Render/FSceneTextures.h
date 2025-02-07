@@ -74,6 +74,8 @@ public:
 	void BeginForward(const DirectXThreadContext* context) const;
 	void EndForward(const DirectXThreadContext* context) const;
 
+	void ClearMain(const DirectXThreadContext* context) const;
+
 	//* getter *//
 
 	const Vector2ui& GetSize() const { return parameterBuffer_->At(0).size; }

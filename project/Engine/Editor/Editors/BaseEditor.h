@@ -36,6 +36,10 @@ public:
 
 	bool& GetIsDisplay() { return isDisplay_; }
 
+	//* setter *//
+
+	void SetIsDisplay(bool isDisplay) { isDisplay_ = isDisplay; }
+
 protected:
 
 	//=========================================================================================
