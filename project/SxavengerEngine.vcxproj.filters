@@ -119,17 +119,7 @@
     <ClCompile Include="Engine\System\Runtime\GameLoop\GameLoop.cpp" />
     <ClCompile Include="Engine\GameLoop\EngineGameLoop.cpp" />
     <ClCompile Include="Engine\GameLoop\ConsoleGameLoop.cpp" />
-    <ClCompile Include="Task\GameLoop\ShootingGameLoop.cpp" />
-    <ClCompile Include="Task\Scene\GameSceneFactory.cpp" />
-    <ClCompile Include="Task\Scene\SceneClear.cpp" />
-    <ClCompile Include="Task\Scene\SceneGame.cpp" />
-    <ClCompile Include="Task\Scene\SceneTitle.cpp" />
     <ClCompile Include="Engine\System\Runtime\Scene\BaseScene.cpp" />
-    <ClCompile Include="Task\Object\Title.cpp" />
-    <ClCompile Include="Task\Object\Clear.cpp" />
-    <ClCompile Include="Task\Entity\Player.cpp" />
-    <ClCompile Include="Task\Entity\Enemy.cpp" />
-    <ClCompile Include="Task\Entity\PlayerBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\System\Window\Window.h" />
@@ -254,16 +244,6 @@
     <ClInclude Include="Engine\System\Runtime\GameLoop\GameLoop.h" />
     <ClInclude Include="Engine\GameLoop\EngineGameLoop.h" />
     <ClInclude Include="Engine\GameLoop\ConsoleGameLoop.h" />
-    <ClInclude Include="Task\GameLoop\ShootingGameLoop.h" />
-    <ClInclude Include="Task\Scene\GameSceneFactory.h" />
-    <ClInclude Include="Task\Scene\SceneClear.h" />
-    <ClInclude Include="Task\Scene\SceneGame.h" />
-    <ClInclude Include="Task\Scene\SceneTitle.h" />
     <ClInclude Include="Engine\System\Runtime\Scene\BaseScene.h" />
-    <ClInclude Include="Task\Object\Title.h" />
-    <ClInclude Include="Task\Object\Clear.h" />
-    <ClInclude Include="Task\Entity\Player.h" />
-    <ClInclude Include="Task\Entity\Enemy.h" />
-    <ClInclude Include="Task\Entity\PlayerBullet.h" />
   </ItemGroup>
 </Project>

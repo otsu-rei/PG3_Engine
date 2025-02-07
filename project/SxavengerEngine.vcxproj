@@ -245,16 +245,6 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClCompile Include="Lib\Sxl\OptimizedMap.cpp" />
     <ClCompile Include="Lib\Sxl\OptimizedSet.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Task\Entity\Enemy.cpp" />
-    <ClCompile Include="Task\Entity\Player.cpp" />
-    <ClCompile Include="Task\Entity\PlayerBullet.cpp" />
-    <ClCompile Include="Task\GameLoop\ShootingGameLoop.cpp" />
-    <ClCompile Include="Task\Object\Clear.cpp" />
-    <ClCompile Include="Task\Object\Title.cpp" />
-    <ClCompile Include="Task\Scene\GameSceneFactory.cpp" />
-    <ClCompile Include="Task\Scene\SceneClear.cpp" />
-    <ClCompile Include="Task\Scene\SceneGame.cpp" />
-    <ClCompile Include="Task\Scene\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Demo\AnimationDemo.h" />
@@ -380,16 +370,6 @@ copy "$(SolutionDir)externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetD
     <ClInclude Include="Lib\Sxl\OptimizedSet.h" />
     <ClInclude Include="Lib\Sxl\SxavengerLibrary.h" />
     <ClInclude Include="Lib\VertexStructure.h" />
-    <ClInclude Include="Task\Entity\Enemy.h" />
-    <ClInclude Include="Task\Entity\Player.h" />
-    <ClInclude Include="Task\Entity\PlayerBullet.h" />
-    <ClInclude Include="Task\GameLoop\ShootingGameLoop.h" />
-    <ClInclude Include="Task\Object\Clear.h" />
-    <ClInclude Include="Task\Object\Title.h" />
-    <ClInclude Include="Task\Scene\GameSceneFactory.h" />
-    <ClInclude Include="Task\Scene\SceneClear.h" />
-    <ClInclude Include="Task\Scene\SceneGame.h" />
-    <ClInclude Include="Task\Scene\SceneTitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
