@@ -6,6 +6,9 @@ _DXOBJECT_USING
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 void InputMesh::CreateMeshlet() {
+	if (isCreateMeshlet_) {
+		return;
+	}
 
 	//!< 最適化は除外
 	//!< bufferが増えるので
@@ -38,7 +41,7 @@ void InputMesh::CreateMeshlet() {
 		std::vector<uint8_t> uniqueVertexIB;
 
 		auto hr = DirectX::ComputeMeshlets(
-			index_->GetData(), index_->GetSize() / 3,
+			reinterpret_cast<const UINT*>(index_->GetData()), index_->GetSize(), //!< HACK: ここはuint32_tでないといけない
 			positions.data(), positions.size(),
 			nullptr,
 			bufferMeshlets,
@@ -109,4 +112,52 @@ void InputMesh::CreateMeshlet() {
 	}
 
 	isCreateMeshlet_ = true;
+}
+
+DxObject::BindBufferDesc InputMesh::GetMeshletBindBufferDesc() const {
+	DxObject::BindBufferDesc desc = {};
+	desc.SetAddress("gVertices",   vertex_->GetGPUVirtualAddress());
+	desc.SetAddress("gIndices",    uniqueVertexIndices_->GetGPUVirtualAddress());
+	desc.SetAddress("gMeshlets",   meshlets_->GetGPUVirtualAddress());
+	desc.SetAddress("gPrimitives", primitiveIndices_->GetGPUVirtualAddress());
+	desc.SetAddress("gCullData",   cullDatas_->GetGPUVirtualAddress());
+	desc.SetAddress("gMeshInfo",   meshInfo_->GetGPUVirtualAddress());
+	return desc;
+}
+
+void InputMesh::Dispatch(const DirectXThreadContext* context, UINT instanceCount) const {
+	Assert(isCreateMeshlet_, "meshlet is not create.");
+	context->GetCommandList()->DispatchMesh(
+		RoundUp(static_cast<UINT>(meshlets_->GetSize()), kAmplificationNumthread_),
+		RoundUp(instanceCount, 1),
+		1
+	);
+}
+
+void InputMesh::CreateBottomLevelAS(const DirectXThreadContext* context) {
+	if (isCreateBottomLevelAS_) {
+		return;
+	}
+
+	D3D12_RAYTRACING_GEOMETRY_DESC desc = {};
+	desc.Type                                 = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
+	desc.Flags                                = D3D12_RAYTRACING_GEOMETRY_FLAG_NONE;
+	desc.Triangles.VertexBuffer.StartAddress  = TriangleInputAssembler::GetVertex()->GetGPUVirtualAddress();
+	desc.Triangles.VertexBuffer.StrideInBytes = TriangleInputAssembler::GetVertex()->GetStride();
+	desc.Triangles.VertexCount                = TriangleInputAssembler::GetVertex()->GetSize();
+	desc.Triangles.VertexFormat               = DXGI_FORMAT_R32G32B32_FLOAT;
+	desc.Triangles.IndexBuffer                = TriangleInputAssembler::GetIndex()->GetGPUVirtualAddress();
+	desc.Triangles.IndexCount                 = TriangleInputAssembler::GetIndex()->GetIndexCount();
+	desc.Triangles.IndexFormat                = DXGI_FORMAT_R32_UINT;
+
+	// BottomLevelASの生成
+	bottomLevelAS_ = std::make_unique<DxrObject::BottomLevelAS>();
+	bottomLevelAS_->Build(SxavengerSystem::GetDxDevice(), context->GetDxCommand(), desc);
+
+	isCreateBottomLevelAS_ = true;
+}
+
+DxrObject::BottomLevelAS* InputMesh::GetBottomLevelAS() const {
+	Assert(isCreateBottomLevelAS_, "bottomLevelAS is not create.");
+	return bottomLevelAS_.get();
 }

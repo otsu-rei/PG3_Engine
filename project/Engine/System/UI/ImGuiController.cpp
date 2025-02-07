@@ -105,9 +105,9 @@ void ImGuiController::EndFrame() {
 }
 
 void ImGuiController::Render(DirectXThreadContext* context) {
-#ifdef _DEBUG
+#ifndef _RELEASE
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), context->GetCommandList());
-#endif // _DEBUG
+#endif // _RELEASE
 }
 
 void ImGuiController::OutputLayout() {
@@ -140,7 +140,8 @@ void ImGuiController::SetImGuiStyle() {
 	style.DockingSeparatorSize = 1;
 
 	/* borderSize */
-	style.FrameBorderSize = 0.0f;
+	style.FrameBorderSize  = 0.0f;
+	style.WindowBorderSize = 0.0f;
 
 	/* color */
 	// text

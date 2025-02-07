@@ -8,8 +8,8 @@
 #include "DirectX/DirectXCommon.h"
 #include "DirectX/DirectXContext.h"
 #include "Window/GameWindowCollection.h"
-#include "Runtime/Thread/Thread.h"
 #include "Runtime/Input/Input.h"
+#include "Runtime/Performance/Performance.h"
 #include "UI/ImGuiController.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,8 +36,6 @@ public:
 
 	static _DXOBJECT DescriptorHeaps* GetDxDescriptorHeaps();
 
-	static _DXOBJECT CompileBlobCollection* GetDxCompileBlobCollection();
-
 	//-----------------------------------------------------------------------------------------
 	// DirectXThreadContext main thread option
 	//-----------------------------------------------------------------------------------------
@@ -49,16 +47,6 @@ public:
 	//static ID3D12GraphicsCommandList6* GetCommandList();
 
 	static DirectXThreadContext* GetMainThreadContext();
-
-	//-----------------------------------------------------------------------------------------
-	// ThreadCollection option
-	//-----------------------------------------------------------------------------------------
-
-	static void PushTask(const std::shared_ptr<TaskThreadExecution>& task);
-
-	static void TermThreadCollection();
-
-	static ThreadCollection* GetThreadCollection();
 
 	//-----------------------------------------------------------------------------------------
 	// GameWindowCollection option
@@ -95,6 +83,18 @@ public:
 	static Input* GetInput();
 
 	//-----------------------------------------------------------------------------------------
+	// Performance option
+	//-----------------------------------------------------------------------------------------
+
+	static void BeginPerformace();
+
+	static void EndPerformace();
+
+	static TimePointf<TimeUnit::second> GetDeltaTime();
+
+	static Performance* GetPerformance();
+
+	//-----------------------------------------------------------------------------------------
 	// imgui controller option
 	//-----------------------------------------------------------------------------------------
 
@@ -105,6 +105,12 @@ public:
 	static void RenderImGui(DirectXThreadContext* context = GetMainThreadContext());
 
 	static ImGuiController* GetImGuiController();
+
+	//=========================================================================================
+	// public variables
+	//=========================================================================================
+
+	static const std::string kEngineVersion;
 
 private:
 };
